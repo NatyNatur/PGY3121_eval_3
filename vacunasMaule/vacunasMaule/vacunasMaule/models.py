@@ -1,13 +1,12 @@
+from statistics import mode
 from django.db import models
 
 # Create your models here.
-class Cliente(models.Model):
-    nombre=models.CharField(max_length=30)
-    direccion=models.CharField(max_length=30)
-    correo=models.EmailField()
-    telefono=models.CharField(max_length=10)
-
-class Articulo(models.Model):
-    nombre=models.CharField(max_length=30)
-    categoria=models.CharField(max_length=30)
-    precio=models.IntegerField()
+class Paciente(models.Model): 
+    rut = models.CharField(max_length=15)
+    nombre = models.CharField(max_length=50)
+    appaterno = models.CharField(max_length=50)
+    apmaterno = models.CharField(max_length=50)
+    edad = models.IntegerField()
+    vacuna = models.CharField(max_length=50)
+    fecha = models.DateField()

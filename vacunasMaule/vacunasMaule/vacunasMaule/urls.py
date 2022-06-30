@@ -20,4 +20,11 @@ from vacunasMaule import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index),
+    path('buscar_paciente', views.v_buscar_paciente),
+    path('listar_pacientes', views.listar_pacientes),
+    path('ingresar_paciente', views.v_ingresar_paciente),
+    path('eliminar_paciente', views.v_eliminar_paciente),
+
+    path('ingresar_registro', views.ingresar_paciente),
+    
 ]

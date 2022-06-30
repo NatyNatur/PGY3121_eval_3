@@ -1,84 +1,64 @@
+from asyncio.windows_events import NULL
 from django.shortcuts import render
-from vacunasMaule.models import Articulo
+from vacunasMaule.models import Paciente
 from django.http import HttpResponse
 
-def ingresar_productos(request):
-    return render(request,"ingresar_productos.html")
-
+# Create your views here.
 def index(request):
     return render(request,"index.html")
 
-def busqueda_productos(request):
-    return render(request,"busqueda_productos.html") 
+def v_ingresar_paciente(request):
+    return render(request, "ingresarPaciente.html")
 
-def listar_todo(request):
-    return render(request,"listar_todo.html")
+def v_buscar_paciente(request):
+    return render(request, "buscarPaciente.html")
 
+def v_listar_pacientes(request):
+    return render(request, "listaPacientes.html")
 
-def eliminar_producto(request):
-    return render(request,"eliminar_producto.html")
+def v_eliminar_paciente(request):
+    return render(request, "eliminarPaciente.html")
 
-def modificar_articulo(request):
-    return render(request,"modificar_articulo.html")
+def listar_pacientes(request):
+    datos = Paciente.objects.all()
+    return render(request,"listaPacientes.html",{'pacientes':datos})
 
-# Create your views here.
-
-def listar_todo_articulos(request):
-    datos = Articulo.objects.all()  
-    return render(request,"listar_todo.html",{'articulos':datos})
-    
-def ingreso_producto(request):
-    nombre=request.GET["txt_nombre"]
-    categoria=request.GET["txt_categoria"]
-    precio=request.GET["txt_precio"]
-    if len(nombre)>0 and len(categoria)>0 and len(precio)>0:
-        pro=Articulo(nombre=nombre,categoria=categoria,precio=precio)  
-        pro.save()
-        mensaje="Articulo ingresado..."
+def ingresar_paciente(request):
+    rut = request.GET["rut"]
+    nombre = request.GET["nombre"]
+    appaterno = request.GET["appaterno"]
+    apmaterno = request.GET["apmaterno"]
+    edad = request.GET["edad"]
+    vacuna = request.GET["vacuna"]
+    fecha = request.GET["fecha"]
+    if len(nombre) > 0 and len(rut) > 0 and len(appaterno) > 0 and len(apmaterno) > 0 and edad != NULL and len(vacuna) > 0 and fecha != NULL:
+        pte = Paciente(rut = rut, nombre = nombre, appaterno = appaterno, apmaterno = apmaterno, edad = edad, vacuna = vacuna, fecha = fecha)
+        pte.save()
+        mensaje = "Paciente registrado exitosamente."
     else:
-        mensaje="Articulo No ingresado o faltan datos..."
-    return HttpResponse(mensaje)
-    
-def modificar(request):
-    if request.GET["txt_id"]:
-        id_recibido = request.GET["txt_id"]
-        precio_recibido = request.GET["txt_precio"]
-        producto = Articulo.objects.filter(id=id_recibido)
-        if producto:
-            pro=Articulo.objects.get(id=id_recibido)
-            pro.precio = precio_recibido
-            pro.save()
-            mensaje = "Precio correctamente modificado"           
-        else:
-            mensaje = "No existe producto para modificar"           
-    else:
-        mensaje = "Debe ingresar un id para modificar"
+        mensaje = "Verifique datos ingresados, no se ingresó paciente."
     return HttpResponse(mensaje)
 
-
-
-def buscar(request):
-    if request.GET["txt_producto"]:
-        producto = request.GET["txt_producto"]
-        articulos = Articulo.objects.filter(nombre__icontains=producto)
-        return render(request,"listar.html",{"articulos":articulos,"query":producto})
+def buscar_paciente(request):
+    if request.GET["rut_paciente"]:
+        paciente = request.GET["rut_paciente"]
+        resultados = Paciente.objects.filter(nombre__icontains=paciente)
+        return render(request, "listaPacientes.html", {"pacientes": resultados, "query": paciente})
     else:
-        mensaje = "Debe ingresar un nombre de producto"
+        mensaje = "Debe ingresar un rut para buscar."
         return HttpResponse(mensaje)
 
-
-def eliminacion_producto(request):
-    if request.GET["txt_id"]:
-        id_recibido = request.GET["txt_id"]
-        producto = Articulo.objects.filter(id=id_recibido)
-        if producto:
-            pro=Articulo.objects.get(id=id_recibido)
-            pro.delete()
-            mensaje = "Producto Eliminado..."
+def eliminar_paciente(request):
+    if request.GET["rut_paciente"]:
+        id_paciente = request.GET["rut_paciente"]
+        paciente = Paciente.objects.filter(rut = id_paciente)
+        if paciente:
+            pte = Paciente.objects.get(rut = id_paciente)
+            pte.delete()
+            mensaje = "Registro eliminado exitosamente."
         else:
-            mensaje = "Producto No eliminado...No existe producto con ese id"
+            mensaje = "Registro no ha sido eliminado, no existe paciente con rut ingresado."
     else:
-        mensaje = "Debe ingresar un id para eliminación..."
+        mensaje = "Debe ingresar un rut correcto para su eliminación."
     return HttpResponse(mensaje)
-
 
