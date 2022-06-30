@@ -26,5 +26,7 @@ urlpatterns = [
     path('eliminar_paciente', views.v_eliminar_paciente),
 
     path('ingresar_registro', views.ingresar_paciente),
+    path('busca_pte', views.buscar_paciente),
+    path('elimina_pte', views.eliminar_paciente)
     
 ]

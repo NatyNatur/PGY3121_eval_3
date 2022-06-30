@@ -24,25 +24,28 @@
       </div>
     </div>
     <div class="row justify-content-center align-items-center h-75">
-      <div class="col-12"></div>
-      <div class="col-11 col-lg-6 text-center bg-white p-4 rounded-3 shadow">
-        <h3 class="mb-5">Eliminar un registro de paciente</h3>
-        <p class="mb-5">Seleccione una opción para ingresar paciente, buscar o listar aquellos ya vacunados o eliminar un registro.</p>
-        <div class="row mb-5">
-          <div class="col-6 col-lg-3 mb-2">
-            <button type="button" class="btn btn-outline-success w-100">Ingresar</button>
-          </div>
-          <div class="col-6 col-lg-3 mb-2">
-            <button type="button" class="btn btn-outline-info w-100">Buscar</button>
-          </div>
-          <div class="col-6 col-lg-3 mb-2">
-            <button type="button" class="btn btn-outline-warning w-100">Listar</button>
-          </div>
-          <div class="col-6 col-lg-3 mb-2">
-            <button type="button" class="btn btn-outline-danger w-100">Eliminar</button>
-          </div>
+      <div class="col-11 col-lg-6 text-center bg-white p-4 rounded-3 shadow optionsCol d-flex flex-column">
+        <div class="mb-auto">
+          <h3 class="mb-5">Eliminar un registro de paciente</h3>
+          <form action="/elimina_pte" method="GET" name="formularioIngreso" class="row g-1">
+            <div class="form-floating mb-3 col-12">
+              <input type="text" class="form-control" placeholder="Ingrese rut" id="inputRut" name="rut_paciente">
+              <label for="floatingInput">Rut</label>
+            </div>
+            <div class="row g-1 justify-content-between">
+              <div class="col-3 col-lg-2">
+                <a role="button" href="/" class="btn btn-outline-secondary w-100">Volver</a>
+              </div>
+              <div class="col-7 col-lg-auto">
+                <button type="submit" class="btn btn-danger w-100">Eliminar paciente</button>
+              </div>
+            </div>
+          </form>
+          {% if mensaje %}
+          <h6 class="my-5">{{ mensaje }}</h6>
+          {% endif %}
         </div>
-        <div class="col-5 col-lg-2 mx-auto">
+        <div class="col-5 col-lg-3 mx-auto">
           <img src="{% static 'img/logoMaule.png' %}" class="img-fluid" alt="comuna">
         </div>
       </div>

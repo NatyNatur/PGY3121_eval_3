@@ -37,16 +37,20 @@ def ingresar_paciente(request):
         mensaje = "Paciente registrado exitosamente."
     else:
         mensaje = "Verifique datos ingresados, no se ingresó paciente."
-    return HttpResponse(mensaje)
+    return render(request, "ingresarPaciente.html", {'mensaje':mensaje})
 
 def buscar_paciente(request):
     if request.GET["rut_paciente"]:
         paciente = request.GET["rut_paciente"]
-        resultados = Paciente.objects.filter(nombre__icontains=paciente)
-        return render(request, "listaPacientes.html", {"pacientes": resultados, "query": paciente})
+        resultados = Paciente.objects.filter(rut__icontains=paciente)
+        if resultados: 
+            return render(request, "buscarPaciente.html", {"pacientes": resultados, "query": paciente})
+        else:
+            mensaje = "No se encontraron coincidencias."
+            return render(request, "buscarPaciente.html", {"mensaje": mensaje})
     else:
         mensaje = "Debe ingresar un rut para buscar."
-        return HttpResponse(mensaje)
+        return render(request, "buscarPaciente.html", {"mensaje": mensaje})
 
 def eliminar_paciente(request):
     if request.GET["rut_paciente"]:
@@ -60,5 +64,5 @@ def eliminar_paciente(request):
             mensaje = "Registro no ha sido eliminado, no existe paciente con rut ingresado."
     else:
         mensaje = "Debe ingresar un rut correcto para su eliminación."
-    return HttpResponse(mensaje)
+    return render(request, "eliminarPaciente.html", {"mensaje": mensaje})
 
